@@ -1,0 +1,22 @@
+﻿@model Producto
+
+@{
+    ViewData["Title"] = "Agregar un Producto";
+}
+
+<h1>Agregar un Producto</h1>
+
+<form asp-controller="UsandoModelos" asp-action="AgregarProducto" method="post" >
+    <div class="form-group">
+        <input asp-for="Descripcion" type="text" class="form-control" id="nombre" placeholder="Ingrese el nombre del nuevo producto">
+    </div>
+    <div class="form-group">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">$</span>
+            </div>
+            <input asp-for="Precio" type="number" class="form-control" placeholder="Precio" id="precio">
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Agregar</button>
+</form>

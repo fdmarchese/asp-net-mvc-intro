@@ -1,0 +1,15 @@
+﻿
+@{
+    ViewData["Title"] = "Ejemplo usando vista";
+
+    // este es un ejemplo de una forma de usar el ViewData para poner info que se usará en el Layout
+    ViewData["estiloNav"] = "bg-dark";
+}
+
+<h1>Ejemplo usando vista</h1>
+
+<div>
+    Esta vista utiliza el layout que se encuentra en la carpeta Shared: <span class="badge badge-dark">Views/Shared/_Layout.cshtml</span>.
+    El contenido que haya en esta vista "EjemploVista.cshtml" al momento de generar la página html
+    que se le muestra al usuario se insertará donde está el método <span class="badge badge-danger">RenderBody()</span>
+</div>

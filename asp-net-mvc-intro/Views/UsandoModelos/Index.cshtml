@@ -1,0 +1,19 @@
+﻿
+@{
+    ViewData["Title"] = "usando modelos";
+}
+
+<div class="card">
+    <div class="card-header">
+        Usando modelos
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">Las vistas pueden tener un modelo fuertemente tipado</h5>
+        <p class="card-text">
+            Esto quiere decir que las vistas van a poder utilizar la directiva model para indicar el tipo estricto que tiene el objeto que se les pase desde el controller.
+            <br />
+            De esta manera, cuando interactuemos con el objeto Model dentro de una vista vamos a estar interactuando con un objeto tipado, por ejemplo un Producto o una lista de productos.
+        </p>
+        <a asp-controller="UsandoModelos" asp-action="ListaDeProductos" class="btn btn-primary">Ver ejemplo</a>
+    </div>
+</div>

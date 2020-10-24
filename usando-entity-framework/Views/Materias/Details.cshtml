@@ -1,0 +1,42 @@
+﻿@model usando_entity_framework.Models.Materia
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Materia</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Anio)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Anio)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Cuatrimestre)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Cuatrimestre)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Profesor)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Profesor.Apellido)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

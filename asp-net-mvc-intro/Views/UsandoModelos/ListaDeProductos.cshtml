@@ -1,0 +1,45 @@
+﻿@* así indicamos el modelo a utilizar. En este caso, Model va a tener una colección de productos *@
+
+@model List<Producto>
+
+@{
+    ViewData["Title"] = "Lista de productos";
+}
+
+<h1>Lista de Productos</h1>
+
+<a class="btn btn-primary" asp-controller="UsandoModelos" asp-action="AgregarProducto">
+    Agregar un Producto
+</a>
+
+<div class="row">
+    @* hacemos una iteración por los elementos del modelo para mostrar cada elemento en una columna diferente *@
+
+    @foreach (Producto producto in Model)
+    {
+        <div class="col-sm-4">
+            <div class="card m-1">
+                <div class="card-body">
+                    <h5 class="card-title">@producto.Descripcion</h5>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <span class="text-primary font-weight-bolder">Id: </span> @producto.Id
+                        </li>
+                        <li class="list-group-item">
+                            <span class="text-primary font-weight-bolder">Orden: </span> @producto.Orden
+                        </li>
+                        <li class="list-group-item">
+                            <span class="text-primary font-weight-bolder">Precio: </span> $@producto.Precio.ToString("N2")
+                        </li>
+                    </ul>
+                    @* @Html.ActionLink("Ver detalle", "UnProducto", "UsandoModelos", new { id = producto.Id } , new { @class = "card-link" }) *@
+                    @* <a href="@Url.Action("UnProducto", "UsandoModelos", new { id = producto.Id })" class="card-link">Ver detalle</a> *@
+
+                    <a asp-controller="UsandoModelos" asp-action="UnProducto" asp-route-id="@producto.Id" class="card-link">Ver detalle</a>
+                    <a asp-controller="UsandoModelos" asp-action="EditarProducto" asp-route-id="@producto.Id" class="card-link">Editar</a>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>

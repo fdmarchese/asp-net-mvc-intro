@@ -1,0 +1,54 @@
+﻿@model usando_entity_framework.Models.Contacto
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Contacto</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.LinkedIn)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.LinkedIn)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Twitter)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Twitter)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Instagram)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Instagram)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Facebook)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Facebook)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Alumno)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Alumno.Apellido)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

@@ -1,0 +1,51 @@
+﻿
+@{
+    ViewData["Title"] = "Tipos de retornos";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Tipos de retornos de las acciones</h1>
+
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Ejemplo retornando string</h5>
+                    <a asp-controller="Retornos" asp-action="EjemploString" target="_blank" class="card-link">link</a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Ejemplo retornando string con contenido html</h5>
+                    <a asp-controller="Retornos" asp-action="EjemploStringConHtml" target="_blank" class="card-link">link</a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Ejemplo retornando json</h5>
+                    <a asp-controller="Retornos" asp-action="EjemploJson" target="_blank" class="card-link">link</a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Ejemplo retornando una vista</h5>
+                    <a asp-controller="Retornos" asp-action="EjemploVista" target="_blank" class="card-link">link</a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Ejemplo retornando una vista sin layout</h5>
+                    <a asp-controller="Retornos" asp-action="EjemploVistaSinLayout" target="_blank" class="card-link">link</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,57 @@
+﻿@model ejemplo_cta_cte.Models.Cuenta
+
+@{
+    ViewData["Title"] = "Detalles de la cuenta";
+}
+
+<h1>Detalles de la cuenta</h1>
+
+<div>
+    <h4>Cuenta</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Numero)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Numero)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Balance)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Balance)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Sucursal)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Sucursal.Nombre)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Moneda)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Moneda.Codigo)
+        </dd>
+        <dt class="col-sm-2">
+            Clientes
+        </dt>
+        <dd class="col-sm-10">
+            <ul>
+                @foreach (Cliente cliente in Model.Clientes.Select(clienteCuenta => clienteCuenta.Cliente))
+                {
+                    <li>@cliente.Apellido, @cliente.Nombre - DNI: @cliente.Dni</li>
+                }
+                @*@foreach (ClienteCuenta clienteCuenta in Model.Clientes)
+                {
+                    <li>@clienteCuenta.Cliente.Apellido, @clienteCuenta.Cliente.Nombre - DNI: @clienteCuenta.Cliente.Dni</li>
+                }*@
+            </ul>
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
