@@ -32,6 +32,7 @@ namespace usando_seguridad.Controllers
             return View();
         }
 
+
         [HttpPost]
         public async Task<IActionResult> Ingresar(string username, string password)
         {
@@ -39,12 +40,12 @@ namespace usando_seguridad.Controllers
 
             if (!string.IsNullOrWhiteSpace(username) && !string.IsNullOrWhiteSpace(password))
             {
-                Usuario usuario = _context.Clientes.FirstOrDefault(usr => usr.Username == username);
+                Usuario usuario = _context.Clientes.FirstOrDefault(cliente => cliente.Username == username);
 
                 // No se trata de un cliente.
                 if (usuario == null)
                 {
-                    usuario = _context.Administradores.FirstOrDefault(usr => usr.Username == username);
+                    usuario = _context.Administradores.FirstOrDefault(administrador => administrador.Username == username);
                 }
 
                 if (usuario != null)

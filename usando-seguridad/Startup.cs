@@ -28,13 +28,20 @@ namespace usando_seguridad
             // Habilitar la autenticación por cookie
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
             {
-                // Especificamos que la ruta para login es "/Cuentas/Ingresar" 
+                // Especificamos que la ruta para login es "/Accesos/Ingresar" 
                 // => esto quiere decir que si alguien que no está autenticado intenta ingresar será enviado a 
                 // la página de login ubicada en el controlador de Cuentas, el action method Ingresar.
                 options.LoginPath = "/Accesos/Ingresar"; // ruta relativa para login.
                 options.AccessDeniedPath = "/Accesos/NoAutorizado"; // ruta relativa para accesos no autorizados por falta de permisos en el rol.
                 options.LogoutPath = "/Accesos/Salir"; // ruta relativa para logout
             });
+
+            /*
+             * Valores por defecto
+            /Accounts/Login
+            /Accounts/Unauthorized
+            /Accounts/Logout
+             */
 
             services.AddControllersWithViews();
 
@@ -56,10 +63,10 @@ namespace usando_seguridad
 
             app.UseRouting();
 
-            app.UseAuthorization();
-
-            // Se debe agregar para que la aplicación utilice el contexto de autenticación.
+            // Se debe agregar para que la aplicación utilice el contexto de autenticación y debe ir ANTES de UseAuthorization().
             app.UseAuthentication();
+
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

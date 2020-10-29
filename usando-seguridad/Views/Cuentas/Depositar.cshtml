@@ -1,0 +1,20 @@
+﻿@model Cuenta
+
+@{
+    ViewData["Title"] = "Depositar";
+}
+
+<h1>Depositar en cuenta @Model.Numero</h1>
+
+
+<form method="post" asp-controller="Cuentas" asp-action="Depositar">
+    <input type="hidden" name="id" value="@Model.Id" /> 
+    <div class="form-group">
+        <label for="monto" class="control-label">Monto</label>
+        <input name="monto" type="number" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-success">
+        Depositar
+    </button>
+</form>

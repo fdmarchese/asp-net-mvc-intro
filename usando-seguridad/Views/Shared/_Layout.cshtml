@@ -18,6 +18,7 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
+
                         @if (User.IsInRole(nameof(Rol.Administrador)))
                         {
                             <li class="nav-item">
@@ -39,14 +40,43 @@
                                 <a class="nav-link text-dark" asp-controller="Monedas" asp-action="Index">Monedas</a>
                             </li>
                         }
-                        else
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Cuentas" asp-action="MisCuentas">Mis cuentas</a>
-                            </li>
-                        }
                     </ul>
                 </div>
+                <ul class="navbar-nav">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li class="dropdown">
+                            <button class="btn btn-link dropdown-toggle" type="button" id="menuOpciones" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                @User.FindFirstValue(ClaimTypes.GivenName) <span class="caret"></span>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="menuOpciones">
+                                @if (User.IsInRole(nameof(Rol.Cliente)))
+                                {
+                                    <a class="dropdown-item" asp-controller="Cuentas" asp-action="MisCuentas">
+                                        Mis cuentas
+                                    </a>
+                                    <hr />
+                                    <a class="dropdown-item" asp-controller="Clientes" asp-action="EditMe">
+                                        Editar
+                                    </a>
+                                }
+                                <form id="logoutForm" method="post" asp-controller="Accesos" asp-action="Salir">
+                                    <button type="submit" class="dropdown-item">
+                                        Salir
+                                    </button>
+                                </form>
+                            </div>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="ml-1">
+                            <a asp-controller="Accesos" asp-action="Ingresar" class="btn btn-success">
+                                Ingresar
+                            </a>
+                        </li>
+                    }
+                </ul>
             </div>
         </nav>
     </header>

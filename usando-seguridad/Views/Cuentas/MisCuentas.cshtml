@@ -1,0 +1,34 @@
+﻿@model Cliente
+
+@{
+    ViewData["Title"] = $"Cuentas de {Model.Nombre} {Model.Apellido}";
+}
+
+<h2>Cuentas de @Model.Nombre @Model.Apellido</h2>
+
+<hr />
+
+<table class="table table-striped table-sm">
+    <thead>
+        <tr>
+            <th>Número</th>
+            <th>Balance</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Cuenta cuenta in Model.Cuentas.Select(clienteCuenta => clienteCuenta.Cuenta))
+        {
+            <tr>
+                <td>@cuenta.Numero</td>
+                <td>@cuenta.Balance.ToString("N2")</td>
+                <td>
+                    <a class="btn btn-primary" asp-controller="Cuentas" asp-action="Depositar" asp-route-id="@cuenta.Id">
+                        Depositar
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
