@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
 using usando_seguridad.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -32,9 +31,8 @@ namespace usando_seguridad.Controllers
             return View();
         }
 
-
         [HttpPost]
-        public async Task<IActionResult> Ingresar(string username, string password)
+        public IActionResult Ingresar(string username, string password)
         {
             string returnUrl = TempData[_Return_Url] as string;
 
@@ -72,7 +70,7 @@ namespace usando_seguridad.Controllers
                         ClaimsPrincipal principal = new ClaimsPrincipal(identity);
 
                         // En este paso se hace el login del usuario al sistema
-                        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+                        HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal).Wait();
 
                         if (!string.IsNullOrWhiteSpace(returnUrl))
                             return Redirect(returnUrl);
@@ -92,9 +90,9 @@ namespace usando_seguridad.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Salir()
+        public IActionResult Salir()
         {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme).Wait();
 
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }

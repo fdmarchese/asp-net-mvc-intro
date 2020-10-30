@@ -10,29 +10,44 @@
     <h4>Cuenta</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Numero)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Numero)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Balance)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Balance)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Sucursal)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Sucursal.Nombre)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Moneda)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Moneda.Codigo)
+        </dd>
+        <dt class="col-sm-2">
+            Clientes
+        </dt>
+        <dd class="col-sm-10">
+            <ul>
+                @foreach (ClienteCuenta clienteCuenta in Model.Clientes)
+                {
+                    <li>
+                        <i class="fas "></i>
+                        @clienteCuenta.Cliente.Apellido, @clienteCuenta.Cliente.Nombre - DNI: @clienteCuenta.Cliente.Dni
+                        <i class="fas @(clienteCuenta.EsTitular ? "fa-check-circle text-success" : "fa-ban text-danger")"></i>
+                    </li>
+                }
+            </ul>
         </dd>
     </dl>
 </div>

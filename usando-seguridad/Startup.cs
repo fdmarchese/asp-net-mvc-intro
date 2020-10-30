@@ -22,19 +22,18 @@ namespace usando_seguridad
 
         public IConfiguration Configuration { get; }
 
+        public static void ConfigCookie(CookieAuthenticationOptions options)
+        {
+            options.LoginPath = "/Accesos/Ingresar"; // ruta relativa para login.
+            options.AccessDeniedPath = "/Accesos/NoAutorizado"; // ruta relativa para accesos no autorizados por falta de permisos en el rol.
+            options.LogoutPath = "/Accesos/Salir"; // ruta relativa para logout
+        }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             // Habilitar la autenticación por cookie
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
-            {
-                // Especificamos que la ruta para login es "/Accesos/Ingresar" 
-                // => esto quiere decir que si alguien que no está autenticado intenta ingresar será enviado a 
-                // la página de login ubicada en el controlador de Cuentas, el action method Ingresar.
-                options.LoginPath = "/Accesos/Ingresar"; // ruta relativa para login.
-                options.AccessDeniedPath = "/Accesos/NoAutorizado"; // ruta relativa para accesos no autorizados por falta de permisos en el rol.
-                options.LogoutPath = "/Accesos/Salir"; // ruta relativa para logout
-            });
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(ConfigCookie);
 
             /*
              * Valores por defecto

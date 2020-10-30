@@ -1,15 +1,15 @@
-﻿@model usando_seguridad.Models.Cuenta
+﻿@model Cuenta
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edición de cuenta";
 }
 
-<h1>Edit</h1>
+<h4>Editar la cuenta</h4>
 
-<h4>Cuenta</h4>
 <hr />
+
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-6 offset-3">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
@@ -34,15 +34,21 @@
                 <span asp-validation-for="MonedaId" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label class="control-label">Clientes</label>
+                <select name="clienteIds" class="form-control" asp-items="ViewBag.Clientes" multiple></select>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Titular de cuenta</label>
+                <select name="titularDeCuenta" class="form-control selectpicker" asp-items="ViewBag.Clientes"></select>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-danger">Back to List</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

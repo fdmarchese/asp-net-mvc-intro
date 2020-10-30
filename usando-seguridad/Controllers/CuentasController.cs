@@ -38,6 +38,7 @@ namespace usando_seguridad.Controllers
             var cuenta = await _context.Cuentas
                 .Include(c => c.Moneda)
                 .Include(c => c.Sucursal)
+                .Include(cuenta => cuenta.Clientes).ThenInclude(clienteCuenta => clienteCuenta.Cliente)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (cuenta == null)
             {
@@ -52,48 +53,72 @@ namespace usando_seguridad.Controllers
         {
             ViewData["MonedaId"] = new SelectList(_context.Monedas, "Id", "Codigo");
             ViewData["SucursalId"] = new SelectList(_context.Sucursales, "Id", "Nombre");
+            ViewData["Clientes"] = new MultiSelectList(_context.Clientes, nameof(Cliente.Id), nameof(Cliente.Descripcion));
             return View();
         }
 
         [Authorize(Roles = nameof(Rol.Administrador))]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Numero,Balance,SucursalId,MonedaId")] Cuenta cuenta)
+        public IActionResult Create(Cuenta cuenta, Guid[] clienteIds, Guid titularDeCuenta)
         {
             if (ModelState.IsValid)
             {
                 cuenta.Id = Guid.NewGuid();
+
+                foreach (Guid clienteId in clienteIds)
+                {
+                    var cliente = new ClienteCuenta()
+                    {
+                        Id = Guid.NewGuid(),
+                        ClienteId = clienteId,
+                        CuentaId = cuenta.Id,
+                        EsTitular = clienteId.Equals(titularDeCuenta)
+                    };
+
+                    _context.Add(cliente);
+                }
+
                 _context.Add(cuenta);
-                await _context.SaveChangesAsync();
+                _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
             ViewData["MonedaId"] = new SelectList(_context.Monedas, "Id", "Codigo", cuenta.MonedaId);
             ViewData["SucursalId"] = new SelectList(_context.Sucursales, "Id", "Nombre", cuenta.SucursalId);
+            ViewData["Clientes"] = new MultiSelectList(_context.Clientes, nameof(Cliente.Id), nameof(Cliente.Descripcion));
             return View(cuenta);
         }
 
         [Authorize(Roles = nameof(Rol.Administrador))]
-        public async Task<IActionResult> Edit(Guid? id)
+        public IActionResult Edit(Guid? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var cuenta = await _context.Cuentas.FindAsync(id);
+            var cuenta = _context.Cuentas
+                .Include(cuenta => cuenta.Clientes)
+                .FirstOrDefault(cuenta => cuenta.Id == id);
+
             if (cuenta == null)
             {
                 return NotFound();
             }
+
+            var clienteIds = cuenta.Clientes.Select(clienteCuenta => clienteCuenta.ClienteId);
+
             ViewData["MonedaId"] = new SelectList(_context.Monedas, "Id", "Codigo", cuenta.MonedaId);
             ViewData["SucursalId"] = new SelectList(_context.Sucursales, "Id", "Nombre", cuenta.SucursalId);
+            ViewData["Clientes"] = new MultiSelectList(_context.Clientes, nameof(Cliente.Id), nameof(Cliente.Dni), clienteIds);
+
             return View(cuenta);
         }
 
         [Authorize(Roles = nameof(Rol.Administrador))]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Id,Numero,Balance,SucursalId,MonedaId")] Cuenta cuenta)
+        public IActionResult Edit(Guid id, Cuenta cuenta, Guid[] clienteIds, Guid titularDeCuenta)
         {
             if (id != cuenta.Id)
             {
@@ -104,8 +129,27 @@ namespace usando_seguridad.Controllers
             {
                 try
                 {
+                    // Obtengo la cuenta desde la base de datos
+                    var clienteCuentas = _context.ClienteCuentas.Where(clienteCuenta => clienteCuenta.CuentaId == id);
+
+                    _context.RemoveRange(clienteCuentas);
+
+                    // Crea todas las relaciones con Clientes para la cuenta editada.
+                    foreach (Guid clienteId in clienteIds)
+                    {
+                        var cliente = new ClienteCuenta()
+                        {
+                            Id = Guid.NewGuid(),
+                            ClienteId = clienteId,
+                            CuentaId = cuenta.Id,
+                            EsTitular = clienteId.Equals(titularDeCuenta)
+                        };
+
+                        _context.Add(cliente);
+                    }
+
                     _context.Update(cuenta);
-                    await _context.SaveChangesAsync();
+                    _context.SaveChanges();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -122,6 +166,8 @@ namespace usando_seguridad.Controllers
             }
             ViewData["MonedaId"] = new SelectList(_context.Monedas, "Id", "Codigo", cuenta.MonedaId);
             ViewData["SucursalId"] = new SelectList(_context.Sucursales, "Id", "Nombre", cuenta.SucursalId);
+            ViewData["Clientes"] = new MultiSelectList(_context.Clientes, nameof(Cliente.Id), nameof(Cliente.Dni), clienteIds);
+
             return View(cuenta);
         }
 
@@ -156,6 +202,8 @@ namespace usando_seguridad.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        #region Acciones de Cliente
+
         [Authorize(Roles = nameof(Rol.Cliente))]
         [HttpGet]
         public IActionResult MisCuentas()
@@ -186,6 +234,34 @@ namespace usando_seguridad.Controllers
 
             return RedirectToAction(nameof(MisCuentas));
         }
+
+        [Authorize(Roles = nameof(Rol.Cliente))]
+        [HttpGet]
+        public IActionResult Extraer(Guid id)
+        {
+            var cuenta = _context.Cuentas.Find(id);
+            return View(cuenta);
+        }
+
+        [Authorize(Roles = nameof(Rol.Cliente))]
+        [HttpPost]
+        public IActionResult Extraer(Guid id, decimal monto)
+        {
+            var cuenta = _context.Cuentas.Find(id);
+
+            if(cuenta.Balance < monto)
+            {
+                ViewBag.Error = "No dispone de fondos";
+                return View(cuenta);
+            }
+
+            cuenta.Balance -= monto;
+            _context.SaveChanges();
+
+            return RedirectToAction(nameof(MisCuentas));
+        }
+
+        #endregion
 
         private bool CuentaExists(Guid id)
         {

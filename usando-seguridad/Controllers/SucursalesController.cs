@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -21,14 +20,12 @@ namespace usando_seguridad.Controllers
             _context = context;
         }
 
-        // GET: Sucursales
         public async Task<IActionResult> Index()
         {
             var seguridadDbContext = _context.Sucursales.Include(s => s.Banco);
             return View(await seguridadDbContext.ToListAsync());
         }
 
-        // GET: Sucursales/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
@@ -47,19 +44,15 @@ namespace usando_seguridad.Controllers
             return View(sucursal);
         }
 
-        // GET: Sucursales/Create
         public IActionResult Create()
         {
             ViewData["BancoId"] = new SelectList(_context.Bancos, "Id", "Nombre");
             return View();
         }
 
-        // POST: Sucursales/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,Direccion,BancoId")] Sucursal sucursal)
+        public async Task<IActionResult> Create(Sucursal sucursal)
         {
             if (ModelState.IsValid)
             {
@@ -72,7 +65,6 @@ namespace usando_seguridad.Controllers
             return View(sucursal);
         }
 
-        // GET: Sucursales/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -89,12 +81,9 @@ namespace usando_seguridad.Controllers
             return View(sucursal);
         }
 
-        // POST: Sucursales/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Id,Nombre,Direccion,BancoId")] Sucursal sucursal)
+        public async Task<IActionResult> Edit(Guid id, Sucursal sucursal)
         {
             if (id != sucursal.Id)
             {
@@ -125,7 +114,6 @@ namespace usando_seguridad.Controllers
             return View(sucursal);
         }
 
-        // GET: Sucursales/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
@@ -144,7 +132,6 @@ namespace usando_seguridad.Controllers
             return View(sucursal);
         }
 
-        // POST: Sucursales/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)

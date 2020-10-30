@@ -1,0 +1,21 @@
+﻿@model Cuenta
+
+@{
+    ViewData["Title"] = "Extraer";
+}
+
+<h1>Extraer de la cuenta @Model.Numero</h1>
+
+
+<form method="post" asp-controller="Cuentas" asp-action="Extraer">
+    <input type="hidden" name="id" value="@Model.Id" />
+    <div class="form-group">
+        <label for="monto" class="control-label">Monto</label>
+        <input name="monto" type="number" class="form-control" />
+        <span class="text-danger">@ViewBag.Error</span>
+    </div>
+
+    <button type="submit" class="btn btn-success">
+        Extraer
+    </button>
+</form>

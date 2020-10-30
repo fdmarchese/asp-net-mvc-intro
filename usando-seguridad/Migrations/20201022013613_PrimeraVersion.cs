@@ -118,7 +118,8 @@ namespace usando_seguridad.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     CuentaId = table.Column<Guid>(nullable: false),
-                    ClienteId = table.Column<Guid>(nullable: false)
+                    ClienteId = table.Column<Guid>(nullable: false),
+                    EsTitular = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {

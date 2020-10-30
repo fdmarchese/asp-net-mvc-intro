@@ -3,15 +3,17 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - usando_seguridad</title>
+    <title>@ViewData["Title"] - usando seguridad</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap-select/css/bootstrap-select.css" />
+    <link rel="stylesheet" href="~/lib/fontawesome/css/all.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">usando_seguridad</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">usando seguridad</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -47,7 +49,7 @@
                     {
                         <li class="dropdown">
                             <button class="btn btn-link dropdown-toggle" type="button" id="menuOpciones" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                @User.FindFirstValue(ClaimTypes.GivenName) <span class="caret"></span>
+                                Bienvenido @User.FindFirstValue(ClaimTypes.GivenName) <span class="caret"></span>
                             </button>
                             <div class="dropdown-menu" aria-labelledby="menuOpciones">
                                 @if (User.IsInRole(nameof(Rol.Cliente)))
@@ -93,6 +95,8 @@
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/bootstrap-select/js/bootstrap-select.js"></script>
+    <script src="~/lib/bootstrap-select/js/i18n/defaults-es_ES.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
 </body>

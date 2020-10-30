@@ -113,6 +113,9 @@ namespace usando_seguridad.Migrations
                     b.Property<Guid>("CuentaId")
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("EsTitular")
+                    .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ClienteId");

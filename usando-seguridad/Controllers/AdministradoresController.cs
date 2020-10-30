@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using usando_seguridad.Database;
 using usando_seguridad.Extensions;
@@ -14,7 +10,7 @@ using usando_seguridad.Models;
 
 namespace usando_seguridad.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = nameof(Rol.Administrador))]
     public class AdministradoresController : Controller
     {
         private readonly SeguridadDbContext _context;
@@ -70,6 +66,12 @@ namespace usando_seguridad.Controllers
                 ModelState.AddModelError(nameof(Administrador.Password), ex.Message);
             }
 
+            if (_context.Administradores.Any(admin => admin.Username == administrador.Username) || 
+                _context.Clientes.Any(cliente => cliente.Username == administrador.Username))
+            {
+                ModelState.AddModelError(nameof(Administrador.Username), "El nombre de usuario ya se encuentra utilizado");
+            }
+
             if (ModelState.IsValid)
             {
                 administrador.Id = Guid.NewGuid();
@@ -104,13 +106,16 @@ namespace usando_seguridad.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit(Guid id, Administrador administrador, string pass)
         {
-            try
+            if (!string.IsNullOrWhiteSpace(pass))
             {
-                pass.ValidarPassword();
-            }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError(nameof(Administrador.Password), ex.Message);
+                try
+                {
+                    pass.ValidarPassword();
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError(nameof(Administrador.Password), ex.Message);
+                }
             }
 
             if (id != administrador.Id)

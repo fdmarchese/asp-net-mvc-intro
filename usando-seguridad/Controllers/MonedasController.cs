@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using usando_seguridad.Database;
 using usando_seguridad.Models;
@@ -21,13 +19,11 @@ namespace usando_seguridad.Controllers
             _context = context;
         }
 
-        // GET: Monedas
         public async Task<IActionResult> Index()
         {
             return View(await _context.Monedas.ToListAsync());
         }
 
-        // GET: Monedas/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
@@ -45,18 +41,14 @@ namespace usando_seguridad.Controllers
             return View(moneda);
         }
 
-        // GET: Monedas/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Monedas/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Descripcion,Codigo")] Moneda moneda)
+        public async Task<IActionResult> Create(Moneda moneda)
         {
             if (ModelState.IsValid)
             {
@@ -68,7 +60,6 @@ namespace usando_seguridad.Controllers
             return View(moneda);
         }
 
-        // GET: Monedas/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -84,12 +75,9 @@ namespace usando_seguridad.Controllers
             return View(moneda);
         }
 
-        // POST: Monedas/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Id,Descripcion,Codigo")] Moneda moneda)
+        public async Task<IActionResult> Edit(Guid id, Moneda moneda)
         {
             if (id != moneda.Id)
             {
@@ -119,7 +107,6 @@ namespace usando_seguridad.Controllers
             return View(moneda);
         }
 
-        // GET: Monedas/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
@@ -137,7 +124,6 @@ namespace usando_seguridad.Controllers
             return View(moneda);
         }
 
-        // POST: Monedas/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)

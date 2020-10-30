@@ -1,15 +1,15 @@
 ﻿@model usando_seguridad.Models.Cuenta
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Alta de cuenta";
 }
 
-<h1>Create</h1>
+<h4>Alta de Cuenta</h4>
 
-<h4>Cuenta</h4>
 <hr />
+
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-6 offset-3">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -24,21 +24,26 @@
             </div>
             <div class="form-group">
                 <label asp-for="SucursalId" class="control-label"></label>
-                <select asp-for="SucursalId" class ="form-control" asp-items="ViewBag.SucursalId"></select>
+                <select asp-for="SucursalId" class="form-control selectpicker" asp-items="ViewBag.SucursalId"></select>
             </div>
             <div class="form-group">
                 <label asp-for="MonedaId" class="control-label"></label>
-                <select asp-for="MonedaId" class ="form-control" asp-items="ViewBag.MonedaId"></select>
+                <select asp-for="MonedaId" class="form-control selectpicker" asp-items="ViewBag.MonedaId"></select>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Clientes</label>
+                <select name="clienteIds" class="form-control selectpicker" asp-items="ViewBag.Clientes" multiple></select>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Titular de cuenta</label>
+                <select name="titularDeCuenta" class="form-control selectpicker" asp-items="ViewBag.Clientes"></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-danger">Back to List</a>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
