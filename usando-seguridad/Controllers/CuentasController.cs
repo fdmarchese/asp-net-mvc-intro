@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -210,7 +211,7 @@ namespace usando_seguridad.Controllers
         {
             var username = User.Identity.Name;
             var cliente = _context.Clientes
-                .Include(cliente => cliente.Cuentas).ThenInclude(clienteCuenta => clienteCuenta.Cuenta)
+                .Include(cliente => cliente.Cuentas).ThenInclude(clienteCuenta => clienteCuenta.Cuenta).ThenInclude(cuenta => cuenta.Moneda)
                 .FirstOrDefault(cliente => cliente.Username == username);
 
             return View(cliente);
@@ -229,7 +230,27 @@ namespace usando_seguridad.Controllers
         public IActionResult Depositar(Guid id, decimal monto)
         {
             var cuenta = _context.Cuentas.Find(id);
+
+            if (monto <= 0)
+            {
+                ViewBag.Error = "El monto debe ser un valor positivo";
+                return View(cuenta);
+            }
+
             cuenta.Balance += monto;
+
+            var clienteId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var movimiento = new Movimiento()
+            {
+                Id = Guid.NewGuid(),
+                ClienteId = clienteId,
+                CuentaId = cuenta.Id,
+                Fecha = DateTime.Now,
+                Monto = monto
+            };
+
+            _context.Add(movimiento);
+
             _context.SaveChanges();
 
             return RedirectToAction(nameof(MisCuentas));
@@ -256,9 +277,33 @@ namespace usando_seguridad.Controllers
             }
 
             cuenta.Balance -= monto;
+
+            var clienteId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var movimiento = new Movimiento()
+            {
+                Id = Guid.NewGuid(),
+                ClienteId = clienteId,
+                CuentaId = cuenta.Id,
+                Fecha = DateTime.Now,
+                Monto = monto * -1
+            };
+
+            _context.Add(movimiento);
+
             _context.SaveChanges();
 
             return RedirectToAction(nameof(MisCuentas));
+        }
+
+        [Authorize(Roles = nameof(Rol.Cliente))]
+        [HttpGet]
+        public IActionResult Movimientos(Guid id)
+        {
+            var cuenta = _context.Cuentas
+                .Include(cuenta => cuenta.Movimientos).ThenInclude(movimiento => movimiento.Cliente)
+                .FirstOrDefault(cuenta => cuenta.Id == id);
+
+            return View(cuenta);
         }
 
         #endregion

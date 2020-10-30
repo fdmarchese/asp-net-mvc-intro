@@ -27,5 +27,7 @@ namespace usando_seguridad.Models
         [ForeignKey(nameof(Moneda))]
         public Guid MonedaId { get; set; }
         public Moneda Moneda { get; set; }
+
+        public List<Movimiento> Movimientos { get; set; }
     }
 }

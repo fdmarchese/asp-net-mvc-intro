@@ -1,0 +1,28 @@
+﻿@model Cuenta
+
+@{
+    ViewData["Title"] = $"Movimientos de cuenta {Model.Numero}";
+}
+
+<h2><i class="fas fa-wallet text-success"></i> Movimientos de cuenta @Model.Numero</h2>
+
+<table class="table table-striped table-sm">
+    <thead>
+        <tr>
+            <th>Fecha</th>
+            <th>Monto</th>
+            <th>Cliente</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Movimiento movimiento in Model.Movimientos)
+        {
+            <tr>
+                <td>@movimiento.Fecha</td>
+                <td class="@(movimiento.Monto < 0 ? "text-danger" : "text-success")">$ @movimiento.Monto.ToString("N2")</td>
+                <td>@movimiento.Cliente.Apellido @movimiento.Cliente.Nombre</td>
+            </tr>
+        }
+    </tbody>
+</table>
+

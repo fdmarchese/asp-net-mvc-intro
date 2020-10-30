@@ -28,6 +28,7 @@ namespace usando_seguridad.Database
         public DbSet<Cuenta> Cuentas { get; set; }
         public DbSet<Sucursal> Sucursales { get; set; }
         public DbSet<ClienteCuenta> ClienteCuentas { get; set; }
+        public DbSet<Movimiento> Movimientos { get; set; }
 
         #endregion
     }

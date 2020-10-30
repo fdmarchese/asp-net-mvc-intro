@@ -16,7 +16,8 @@ namespace usando_seguridad.Migrations
                     Nombre = table.Column<string>(maxLength: 100, nullable: false),
                     Apellido = table.Column<string>(maxLength: 100, nullable: false),
                     FechaNacimiento = table.Column<DateTime>(nullable: false),
-                    Password = table.Column<byte[]>(nullable: true)
+                    Password = table.Column<byte[]>(nullable: true),
+                    Foto = table.Column<string>(maxLength: 255, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -45,7 +46,8 @@ namespace usando_seguridad.Migrations
                     Apellido = table.Column<string>(maxLength: 100, nullable: false),
                     FechaNacimiento = table.Column<DateTime>(nullable: false),
                     Password = table.Column<byte[]>(nullable: true),
-                    Dni = table.Column<string>(maxLength: 8, nullable: false)
+                    Dni = table.Column<string>(maxLength: 8, nullable: false),
+                    Foto = table.Column<string>(maxLength: 255, nullable: false)
                 },
                 constraints: table =>
                 {

@@ -183,6 +183,7 @@ namespace usando_seguridad.Controllers
                 clienteDatabase.Apellido = cliente.Apellido;
                 clienteDatabase.Dni = cliente.Dni;
                 clienteDatabase.FechaNacimiento = cliente.FechaNacimiento;
+                clienteDatabase.Foto = cliente.Foto;
 
                 if (!string.IsNullOrWhiteSpace(pass))
                 {

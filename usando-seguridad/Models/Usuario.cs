@@ -30,6 +30,10 @@ namespace usando_seguridad.Models
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime FechaNacimiento { get; set; }
 
+        [Url(ErrorMessage = "Debe ser una url válida")]
+        [MaxLength(255, ErrorMessage = "{0} admite un máximo de {1} caracteres")]
+        public string Foto { get; set; }
+
         [ScaffoldColumn(false)]
         public byte[] Password { get; set; }
 

@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using usando_seguridad.Database;
 
 namespace usando_seguridad.Migrations
 {
     [DbContext(typeof(SeguridadDbContext))]
-    partial class SeguridadDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201030035536_AgregarMovimientos")]
+    partial class AgregarMovimientos
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,8 +33,7 @@ namespace usando_seguridad.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Foto")
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(255);
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
@@ -88,8 +89,7 @@ namespace usando_seguridad.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Foto")
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(255);
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Nombre")
                         .IsRequired()

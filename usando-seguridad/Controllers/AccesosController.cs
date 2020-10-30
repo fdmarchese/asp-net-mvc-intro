@@ -67,6 +67,8 @@ namespace usando_seguridad.Controllers
                         // Lo utilizaremos cuando querramos mostrar el nombre del usuario logueado en el sistema.
                         identity.AddClaim(new Claim(ClaimTypes.GivenName, usuario.Nombre));
 
+                        identity.AddClaim(new Claim(nameof(Usuario.Foto), usuario.Foto ?? string.Empty));
+
                         ClaimsPrincipal principal = new ClaimsPrincipal(identity);
 
                         // En este paso se hace el login del usuario al sistema

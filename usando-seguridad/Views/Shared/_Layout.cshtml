@@ -20,7 +20,6 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
-
                         @if (User.IsInRole(nameof(Rol.Administrador)))
                         {
                             <li class="nav-item">
@@ -47,9 +46,14 @@
                 <ul class="navbar-nav">
                     @if (User.Identity.IsAuthenticated)
                     {
+                        var foto = User.FindFirstValue(nameof(Usuario.Foto));
                         <li class="dropdown">
-                            <button class="btn btn-link dropdown-toggle" type="button" id="menuOpciones" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Bienvenido @User.FindFirstValue(ClaimTypes.GivenName) <span class="caret"></span>
+                            <button class="btn dropdown-toggle" type="button" id="menuOpciones" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Bienvenido @User.FindFirstValue(ClaimTypes.GivenName) <span class="caret ml-1"></span>
+                                @if (!string.IsNullOrWhiteSpace(foto))
+                                {
+                                    <img src="@foto" class="rounded-circle avatar" />
+                                }
                             </button>
                             <div class="dropdown-menu" aria-labelledby="menuOpciones">
                                 @if (User.IsInRole(nameof(Rol.Cliente)))
@@ -69,6 +73,7 @@
                                 </form>
                             </div>
                         </li>
+
                     }
                     else
                     {
