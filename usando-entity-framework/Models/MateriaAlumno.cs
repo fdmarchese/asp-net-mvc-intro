@@ -9,7 +9,6 @@ namespace usando_entity_framework.Models
         [Key]
         public Guid Id { get; set; }
 
-
         [ForeignKey(nameof(Materia))]
         public Guid MateriaId { get; set; }
         public Materia Materia { get; set; }

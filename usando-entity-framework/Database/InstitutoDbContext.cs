@@ -1,13 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using usando_entity_framework.Models;
 
 namespace usando_entity_framework.Database
 {
-    public class AlumnosDbContext : DbContext
+    public class InstitutoDbContext : DbContext
     {
         #region Constructor
 
@@ -15,7 +11,7 @@ namespace usando_entity_framework.Database
         /// Este constructor es el que necesitamos para usar luego en la clase <see cref="Startup"/> en
         /// donde inicializamos el objeto de contexto de base de datos que luego será utilizado por toda nuestra aplicación.
         /// </summary>
-        public AlumnosDbContext(DbContextOptions<AlumnosDbContext> opciones) : base(opciones) 
+        public InstitutoDbContext(DbContextOptions<InstitutoDbContext> opciones) : base(opciones) 
         {
         }
 

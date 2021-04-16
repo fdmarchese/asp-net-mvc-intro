@@ -74,6 +74,8 @@ namespace usando_seguridad.Controllers
                         // En este paso se hace el login del usuario al sistema
                         HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal).Wait();
 
+                        TempData["LoggedIn"] = true;
+
                         if (!string.IsNullOrWhiteSpace(returnUrl))
                             return Redirect(returnUrl);
 

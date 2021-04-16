@@ -12,9 +12,9 @@ namespace usando_entity_framework.Controllers
 {
     public class AlumnosController : Controller
     {
-        private readonly AlumnosDbContext _context;
+        private readonly InstitutoDbContext _context;
 
-        public AlumnosController(AlumnosDbContext context)
+        public AlumnosController(InstitutoDbContext context)
         {
             _context = context;
         }
@@ -26,17 +26,15 @@ namespace usando_entity_framework.Controllers
         }
 
         // GET: Alumnos/Details/5
-        public IActionResult Details(Guid? id)
+        public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var alumno = _context.Alumnos
-                .Include(alumno => alumno.Materias).ThenInclude(materiaAlumno => materiaAlumno.Materia)
-                .Include(alumno => alumno.Telefonos).ThenInclude(telefono => telefono.TipoTelefono)
-                .FirstOrDefault(alumno => alumno.Id == id);
+            var alumno = await _context.Alumnos
+                .FirstOrDefaultAsync(m => m.Id == id);
 
             if (alumno == null)
             {
@@ -57,21 +55,15 @@ namespace usando_entity_framework.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("Id,Nombre,Apellido,FechaNacimiento")] Alumno alumno)
+        public async Task<IActionResult> Create(Alumno alumno)
         {
-            if (alumno.FechaNacimiento > DateTime.Now.AddYears(-18))
-            {
-                ModelState.AddModelError("FechaNacimiento", "El Alumno debe ser mayor de 18 años");
-            }
-
             if (ModelState.IsValid)
             {
                 alumno.Id = Guid.NewGuid();
                 _context.Add(alumno);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-
             return View(alumno);
         }
 

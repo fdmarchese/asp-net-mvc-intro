@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace usando_entity_framework.Migrations
 {
-    public partial class UnaPrueba : Migration
+    public partial class primeraVersion : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

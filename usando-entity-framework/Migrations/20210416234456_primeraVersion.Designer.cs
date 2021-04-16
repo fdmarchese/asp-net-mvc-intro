@@ -8,15 +8,15 @@ using usando_entity_framework.Database;
 
 namespace usando_entity_framework.Migrations
 {
-    [DbContext(typeof(AlumnosDbContext))]
-    [Migration("20201021224426_UnaPrueba")]
-    partial class UnaPrueba
+    [DbContext(typeof(InstitutoDbContext))]
+    [Migration("20210416234456_primeraVersion")]
+    partial class primeraVersion
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.9");
+                .HasAnnotation("ProductVersion", "3.1.14");
 
             modelBuilder.Entity("usando_entity_framework.Models.Alumno", b =>
                 {

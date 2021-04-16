@@ -7,14 +7,14 @@ using usando_entity_framework.Database;
 
 namespace usando_entity_framework.Migrations
 {
-    [DbContext(typeof(AlumnosDbContext))]
-    partial class AlumnosDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(InstitutoDbContext))]
+    partial class InstitutoDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.9");
+                .HasAnnotation("ProductVersion", "3.1.14");
 
             modelBuilder.Entity("usando_entity_framework.Models.Alumno", b =>
                 {

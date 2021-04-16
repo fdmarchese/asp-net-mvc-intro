@@ -12,9 +12,9 @@ namespace usando_entity_framework.Controllers
 {
     public class MateriaAlumnosController : Controller
     {
-        private readonly AlumnosDbContext _context;
+        private readonly InstitutoDbContext _context;
 
-        public MateriaAlumnosController(AlumnosDbContext context)
+        public MateriaAlumnosController(InstitutoDbContext context)
         {
             _context = context;
         }

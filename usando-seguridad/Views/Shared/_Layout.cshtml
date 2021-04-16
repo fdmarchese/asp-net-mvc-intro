@@ -7,86 +7,11 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/lib/bootstrap-select/css/bootstrap-select.css" />
     <link rel="stylesheet" href="~/lib/fontawesome/css/all.css" />
+    <link rel="stylesheet" href="~/lib/alertifyjs/css/alertify.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">usando seguridad</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
-                        @if (User.IsInRole(nameof(Rol.Administrador)))
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Administradores" asp-action="Index">Administradores</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Clientes" asp-action="Index">Clientes</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Cuentas" asp-action="Index">Cuentas</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Bancos" asp-action="Index">Bancos</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Sucursales" asp-action="Index">Sucursales</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Monedas" asp-action="Index">Monedas</a>
-                            </li>
-                        }
-                    </ul>
-                </div>
-                <ul class="navbar-nav">
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        var foto = User.FindFirstValue(nameof(Usuario.Foto));
-                        <li class="dropdown">
-                            <button class="btn dropdown-toggle" type="button" id="menuOpciones" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Bienvenido @User.FindFirstValue(ClaimTypes.GivenName) <span class="caret ml-1"></span>
-                                @if (!string.IsNullOrWhiteSpace(foto))
-                                {
-                                    <img src="@foto" class="rounded-circle avatar" />
-                                }
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="menuOpciones">
-                                @if (User.IsInRole(nameof(Rol.Cliente)))
-                                {
-                                    <a class="dropdown-item" asp-controller="Cuentas" asp-action="MisCuentas">
-                                        Mis cuentas
-                                    </a>
-                                    <hr />
-                                    <a class="dropdown-item" asp-controller="Clientes" asp-action="EditMe">
-                                        Editar
-                                    </a>
-                                }
-                                <form id="logoutForm" method="post" asp-controller="Accesos" asp-action="Salir">
-                                    <button type="submit" class="dropdown-item">
-                                        Salir
-                                    </button>
-                                </form>
-                            </div>
-                        </li>
-
-                    }
-                    else
-                    {
-                        <li class="ml-1">
-                            <a asp-controller="Accesos" asp-action="Ingresar" class="btn btn-success">
-                                Ingresar
-                            </a>
-                        </li>
-                    }
-                </ul>
-            </div>
-        </nav>
-    </header>
+    <partial name="~/Views/Shared/_Navbar.cshtml" />
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
@@ -95,14 +20,24 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2020 - usando_seguridad - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2020 - usando seguridad
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/lib/bootstrap-select/js/bootstrap-select.js"></script>
     <script src="~/lib/bootstrap-select/js/i18n/defaults-es_ES.js"></script>
+    <script src="~/lib/alertifyjs/alertify.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
     @RenderSection("Scripts", required: false)
+
+    @if (TempData["LoggedIn"] as bool? ?? false)
+    {
+        <script>
+            alertify.success("Bienvenido @User.Identity.Name !!!");
+        </script>
+    }
 </body>
 </html>
