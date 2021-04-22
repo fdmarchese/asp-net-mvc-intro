@@ -20,21 +20,40 @@ namespace usando_entity_framework.Controllers
         }
 
         // GET: Alumnos
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Alumnos.ToListAsync());
+            // TRAEMOS TODOS LOS ALUMNOS DE LA BD Y LOS ORDENAMOS
+            var alumnos = _context.Alumnos
+                .ToList()
+                .OrderBy(alumno => alumno.Apellido) // PRIMER CRITERIO DE ORDEN ES ASCENDENTE POR APELLIDO
+                .ThenByDescending(alumno => alumno.Nombre); // SEGUNDO CRITERIO DE ORDEN ES DESCENDENTE POR NOMBRE
+
+            return View(alumnos);
+        }
+
+        public IActionResult FiltroPorNombre(string nombre)
+        {
+            List<Alumno> alumnos = _context.Alumnos
+                .Where(alumno => alumno.Nombre == nombre && alumno.FechaNacimiento > DateTime.Today.AddYears(-20))
+                .ToList();
+
+            return View(alumnos);
         }
 
         // GET: Alumnos/Details/5
-        public async Task<IActionResult> Details(Guid? id)
+        public IActionResult Details(Guid? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var alumno = await _context.Alumnos
-                .FirstOrDefaultAsync(m => m.Id == id);
+            // OBTENGO 1 ALUMNO POR ID CON LOS DATOS DE LAS PROPIEDADES DE NAVEGACION
+            Alumno alumno = _context.Alumnos
+                .Include(alumno => alumno.Telefonos).ThenInclude(telefono => telefono.TipoTelefono)
+                .Include(alumno => alumno.Contacto)
+                .Include(alumno => alumno.Materias).ThenInclude(materiaAlumno => materiaAlumno.Materia).ThenInclude(materia => materia.Profesor)
+                .FirstOrDefault(alumno => alumno.Id == id);
 
             if (alumno == null)
             {
@@ -59,13 +78,40 @@ namespace usando_entity_framework.Controllers
         {
             if (ModelState.IsValid)
             {
+                // PROPIEDADES AUTOCOMPLETADAS.
                 alumno.Id = Guid.NewGuid();
-                _context.Add(alumno);
+
+                // AGREGO EL OBJETO AL CONTEXTO DE DATOS.
+                _context.Alumnos.Add(alumno);
+
+                // GUARDAR EN LA BASE DE DATOS.
                 await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index));
             }
             return View(alumno);
         }
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public IActionResult Create(Alumno alumno)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        // PROPIEDADES AUTOCOMPLETADAS.
+        //        alumno.Id = Guid.NewGuid();
+
+        //        // AGREGO EL OBJETO AL CONTEXTO DE DATOS.
+        //        _context.Alumnos.Add(alumno);
+
+        //        // GUARDAR EN LA BASE DE DATOS.
+        //        _context.SaveChanges();
+
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    return View(alumno);
+        //}
+
 
         // GET: Alumnos/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
@@ -76,6 +122,7 @@ namespace usando_entity_framework.Controllers
             }
 
             var alumno = await _context.Alumnos.FindAsync(id);
+
             if (alumno == null)
             {
                 return NotFound();
@@ -88,9 +135,9 @@ namespace usando_entity_framework.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Id,Nombre,Apellido,FechaNacimiento")] Alumno alumno)
+        public async Task<IActionResult> Edit(Guid id, Alumno model)
         {
-            if (id != alumno.Id)
+            if (id != model.Id)
             {
                 return NotFound();
             }
@@ -99,12 +146,19 @@ namespace usando_entity_framework.Controllers
             {
                 try
                 {
-                    _context.Update(alumno);
+                    // LEVANTO LA INFO DEL ALUMNO SIN MODIFICAR DESDE LA DB
+                    Alumno alumno = _context.Alumnos.Find(id);
+
+                    // MAPEO LA INFO EDITABLE DEL ALUMNO
+                    alumno.Apellido = model.Apellido;
+                    alumno.FechaNacimiento = model.FechaNacimiento;
+
+                    // GUARDAN EN LA BASE DE DATOS
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AlumnoExists(alumno.Id))
+                    if (!AlumnoExists(model.Id))
                     {
                         return NotFound();
                     }
@@ -115,7 +169,7 @@ namespace usando_entity_framework.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(alumno);
+            return View(model);
         }
 
         // GET: Alumnos/Delete/5
@@ -141,9 +195,15 @@ namespace usando_entity_framework.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
+            // OBTIENE EL ALUMNO A ELIMINAR
             var alumno = await _context.Alumnos.FindAsync(id);
+            
+            // LO REMUEVE DEL CONTEXTO
             _context.Alumnos.Remove(alumno);
+            
+            // GRABA LOS CAMBIOS
             await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
 
