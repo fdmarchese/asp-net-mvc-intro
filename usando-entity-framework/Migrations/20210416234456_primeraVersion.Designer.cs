@@ -10,7 +10,7 @@ namespace usando_entity_framework.Migrations
 {
     [DbContext(typeof(InstitutoDbContext))]
     [Migration("20210416234456_primeraVersion")]
-    partial class primeraVersion
+    partial class PrimeraVersion
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

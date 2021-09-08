@@ -8,7 +8,7 @@ namespace asp_net_mvc_intro.Controllers
 {
     public class UsandoModelosController : Controller
     {
-        private static List<Producto> _productos = new List<Producto>()
+        private readonly static List<Producto> _productos = new List<Producto>()
         {
             new Producto(Guid.NewGuid(), "Café", 1, 200M),
             new Producto(Guid.NewGuid(), "Té", 2, 65M),
