@@ -11,7 +11,7 @@ using usando_seguridad.Models;
 
 namespace usando_seguridad.Controllers
 {
-    [Authorize]
+    [Authorize] // Solamente debe estar logueado
     public class CuentasController : Controller
     {
         private readonly SeguridadDbContext _context;
@@ -21,7 +21,7 @@ namespace usando_seguridad.Controllers
             _context = context;
         }
 
-        [Authorize(Roles = nameof(Rol.Administrador))]
+        [Authorize(Roles = "Administrador,Cliente")] // tanto un admin como un cliente pueden acceder
         public async Task<IActionResult> Index()
         {
             var seguridadDbContext = _context.Cuentas.Include(c => c.Moneda).Include(c => c.Sucursal);
@@ -205,7 +205,7 @@ namespace usando_seguridad.Controllers
 
         #region Acciones de Cliente
 
-        [Authorize(Roles = nameof(Rol.Cliente))]
+        [Authorize(Roles = nameof(Rol.Cliente))] // solamente puede acceder un cliente
         [HttpGet]
         public IActionResult MisCuentas()
         {

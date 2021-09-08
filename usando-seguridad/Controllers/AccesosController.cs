@@ -32,16 +32,19 @@ namespace usando_seguridad.Controllers
         }
 
         [HttpPost]
-        public IActionResult Ingresar(string username, string password)
+        public IActionResult Ingresar(string username, string password, Rol rol)
         {
             string returnUrl = TempData[_Return_Url] as string;
 
             if (!string.IsNullOrWhiteSpace(username) && !string.IsNullOrWhiteSpace(password))
             {
-                Usuario usuario = _context.Clientes.FirstOrDefault(cliente => cliente.Username == username);
+                Usuario usuario = null;
 
-                // No se trata de un cliente.
-                if (usuario == null)
+                if (rol == Rol.Cliente)
+                {
+                    usuario = _context.Clientes.FirstOrDefault(cliente => cliente.Username == username);
+                }
+                else if (rol == Rol.Administrador)
                 {
                     usuario = _context.Administradores.FirstOrDefault(administrador => administrador.Username == username);
                 }
