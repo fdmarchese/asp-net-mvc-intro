@@ -15,6 +15,11 @@
                 @ViewBag.Error
             </div>
             <div class="form-group">
+                <label laber-for="rol" class="control-label">Rol:</label>
+                <input name="rol" type="radio" value="@Rol.Administrador" /> @Rol.Administrador.ToString()
+                <input name="rol" type="radio" value="@Rol.Cliente" /> @Rol.Cliente.ToString()
+            </div>
+            <div class="form-group">
                 <label laber-for="username" class="control-label">Nombre de usuario:</label>
                 <input name="username" class="form-control" type="text" value="@ViewBag.Username" />
             </div>
