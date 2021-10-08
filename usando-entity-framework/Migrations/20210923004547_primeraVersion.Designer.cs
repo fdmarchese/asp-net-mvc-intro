@@ -9,8 +9,8 @@ using usando_entity_framework.Database;
 namespace usando_entity_framework.Migrations
 {
     [DbContext(typeof(InstitutoDbContext))]
-    [Migration("20210416234456_primeraVersion")]
-    partial class PrimeraVersion
+    [Migration("20210923004547_primeraVersion")]
+    partial class primeraVersion
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -71,6 +71,9 @@ namespace usando_entity_framework.Migrations
                     b.Property<string>("Twitter")
                         .HasColumnType("TEXT")
                         .HasMaxLength(100);
+
+                    b.Property<string>("UnDatoMas")
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 

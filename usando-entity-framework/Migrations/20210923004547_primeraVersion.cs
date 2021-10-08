@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace usando_entity_framework.Migrations
 {
-    public partial class PrimeraVersion : Migration
+    public partial class primeraVersion : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -57,6 +57,7 @@ namespace usando_entity_framework.Migrations
                     Twitter = table.Column<string>(maxLength: 100, nullable: true),
                     Instagram = table.Column<string>(maxLength: 100, nullable: true),
                     Facebook = table.Column<string>(maxLength: 100, nullable: true),
+                    UnDatoMas = table.Column<string>(nullable: true),
                     AlumnoId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>

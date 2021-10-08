@@ -24,6 +24,7 @@ namespace usando_entity_framework.Controllers
         {
             // TRAEMOS TODOS LOS ALUMNOS DE LA BD Y LOS ORDENAMOS
             var alumnos = _context.Alumnos
+                .Include(alumno => alumno.Contacto)
                 .ToList()
                 .OrderBy(alumno => alumno.Apellido) // PRIMER CRITERIO DE ORDEN ES ASCENDENTE POR APELLIDO
                 .ThenByDescending(alumno => alumno.Nombre); // SEGUNDO CRITERIO DE ORDEN ES DESCENDENTE POR NOMBRE
@@ -33,7 +34,7 @@ namespace usando_entity_framework.Controllers
 
         public IActionResult FiltroPorNombre(string nombre)
         {
-            List<Alumno> alumnos = _context.Alumnos
+            var alumnos = _context.Alumnos
                 .Where(alumno => alumno.Nombre == nombre && alumno.FechaNacimiento > DateTime.Today.AddYears(-20))
                 .ToList();
 
@@ -197,10 +198,10 @@ namespace usando_entity_framework.Controllers
         {
             // OBTIENE EL ALUMNO A ELIMINAR
             var alumno = await _context.Alumnos.FindAsync(id);
-            
+
             // LO REMUEVE DEL CONTEXTO
             _context.Alumnos.Remove(alumno);
-            
+
             // GRABA LOS CAMBIOS
             await _context.SaveChangesAsync();
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,28 +20,12 @@ namespace usando_entity_framework.Controllers
         }
 
         // GET: TipoTelefonos
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.TipoTelefonos.ToListAsync());
+            List<TipoTelefono> tipoTelefonos = _context.TipoTelefonos.ToList();
+            return View(tipoTelefonos);
         }
 
-        // GET: TipoTelefonos/Details/5
-        public async Task<IActionResult> Details(Guid? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var tipoTelefono = await _context.TipoTelefonos
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (tipoTelefono == null)
-            {
-                return NotFound();
-            }
-
-            return View(tipoTelefono);
-        }
 
         // GET: TipoTelefonos/Create
         public IActionResult Create()
@@ -54,13 +38,20 @@ namespace usando_entity_framework.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Descripcion")] TipoTelefono tipoTelefono)
+        public IActionResult Create(TipoTelefono tipoTelefono)
         {
             if (ModelState.IsValid)
             {
+                // dato autogenerado
                 tipoTelefono.Id = Guid.NewGuid();
+
+                // agregar el dato al set de datos => datos de tipo TipoTelefono
                 _context.Add(tipoTelefono);
-                await _context.SaveChangesAsync();
+
+                // GRABAR EL DATO EN LA BASE DE DATOS
+                _context.SaveChanges();
+
+                // redirecciono a la página de inicio de TipoTelefono, o sea, el Index
                 return RedirectToAction(nameof(Index));
             }
             return View(tipoTelefono);
@@ -118,15 +109,15 @@ namespace usando_entity_framework.Controllers
         }
 
         // GET: TipoTelefonos/Delete/5
-        public async Task<IActionResult> Delete(Guid? id)
+        public IActionResult Delete(Guid? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var tipoTelefono = await _context.TipoTelefonos
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var tipoTelefono = _context.TipoTelefonos
+                .FirstOrDefault(m => m.Id == id);
             if (tipoTelefono == null)
             {
                 return NotFound();

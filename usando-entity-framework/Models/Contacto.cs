@@ -26,6 +26,8 @@ namespace usando_entity_framework.Models
         [MaxLength(100, ErrorMessage = "{0} admite un máximo de {1} caracteres")]
         public string Facebook { get; set; }
 
+        public string UnDatoMas { get; set; }
+
         [ForeignKey(nameof(Alumno))]
         public Guid AlumnoId { get; set; }
         public Alumno Alumno { get; set; }

@@ -11,6 +11,7 @@ namespace usando_entity_framework.Models
 
         [Required(ErrorMessage = "El campo {0} es requerido")]
         [MaxLength(100, ErrorMessage = "{0} admite un máximo de {1} caracteres")]
+        [Display(Name = "Descripción")]
         public string Descripcion { get; set; }
 
         // Todos los teléfonos que tienen un cierto tipo de teléfono.

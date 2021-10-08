@@ -70,6 +70,9 @@ namespace usando_entity_framework.Migrations
                         .HasColumnType("TEXT")
                         .HasMaxLength(100);
 
+                    b.Property<string>("UnDatoMas")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AlumnoId")

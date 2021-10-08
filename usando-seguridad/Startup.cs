@@ -32,7 +32,7 @@ namespace usando_seguridad
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Habilitar la autenticación por cookie
+            // Habilitar la autenticaci?n por cookie
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(ConfigCookie);
 
             /*
@@ -62,7 +62,7 @@ namespace usando_seguridad
 
             app.UseRouting();
 
-            // Se debe agregar para que la aplicación utilice el contexto de autenticación y debe ir ANTES de UseAuthorization().
+            // Se debe agregar para que la aplicaci?n utilice el contexto de autenticaci?n y debe ir ANTES de UseAuthorization().
             app.UseAuthentication();
 
             app.UseAuthorization();
@@ -74,7 +74,7 @@ namespace usando_seguridad
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            // Esta sección debe ir aquí (Después de app.UseMvc() si queremos utilizar TempData en la aplicación.
+            // Esta secci?n debe ir aqu? (Despu?s de app.UseMvc() si queremos utilizar TempData en la aplicaci?n.
             app.UseCookiePolicy();
         }
     }

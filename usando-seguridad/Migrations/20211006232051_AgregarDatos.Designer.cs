@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using usando_seguridad.Database;
 
 namespace usando_seguridad.Migrations
 {
     [DbContext(typeof(SeguridadDbContext))]
-    partial class SeguridadDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211006232051_AgregarDatos")]
+    partial class AgregarDatos
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
